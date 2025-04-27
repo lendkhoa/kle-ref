@@ -1,5 +1,6 @@
-[AWS](./awz.md)
-AWZ notes
+## [AWS Notes](./awz.md)
+Collection of helpful AWS note and setup scripts
+
 ---
 
 
