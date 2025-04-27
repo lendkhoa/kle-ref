@@ -1,4 +1,4 @@
-<iframe= src="./assets/html-template/weather.html" ></iframe>
+<iframe src="./assets/html-template/weather.html"></iframe>
 
 ## [AWS Notes](./awz.md)
 Collection of helpful AWS note and setup scripts
