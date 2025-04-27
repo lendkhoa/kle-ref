@@ -60,34 +60,40 @@ Swift UI notes
     const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
     dateElement.textContent = new Date().toLocaleDateString(undefined, options);
   }
-  
+
+  const locationName = "{{ site.weather_location | default: 'San Francisco' }}";
+
   // Fetch weather data
   async function fetchWeather() {
     const weatherElement = document.getElementById('weather-display');
     try {
-      // Get user location (browser will ask for permission)
-      navigator.geolocation.getCurrentPosition(async (position) => {
-        const { latitude, longitude } = position.coords;
+      // First, convert location name to coordinates using Open-Meteo Geocoding API
+      const geocodeResponse = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(locationName)}&count=1`);
+      const geocodeData = await geocodeResponse.json();
+      
+      if (!geocodeData.results || geocodeData.results.length === 0) {
+        throw new Error('Location not found');
+      }
+      
+      const { latitude, longitude } = geocodeData.results[0];
+      
+      // Fetch weather data from Open-Meteo API
+      const weatherResponse = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature,weather_code,wind_speed_10m`);
+      const data = await weatherResponse.json();
+      
+      // Display temperature and weather information
+      if (data && data.current) {
+        const temp = data.current.temperature;
+        const weatherCode = data.current.weather_code;
+        const weather = getWeatherDescription(weatherCode);
         
-        // Free weather API that doesn't require API key
-        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature,weather_code,wind_speed_10m`);
-        const data = await response.json();
-        
-        // Display temperature and weather information
-        if (data && data.current) {
-          const temp = data.current.temperature;
-          const weatherCode = data.current.weather_code;
-          const weather = getWeatherDescription(weatherCode);
-          
-          weatherElement.innerHTML = `${temp}°C - ${weather}`;
-        } else {
-          weatherElement.textContent = 'Weather data unavailable';
-        }
-      }, (error) => {
-        weatherElement.textContent = 'Location access denied';
-      });
+        weatherElement.innerHTML = `${locationName}: ${temp}°C - ${weather}`;
+      } else {
+        weatherElement.textContent = 'Weather data unavailable';
+      }
     } catch (error) {
       weatherElement.textContent = 'Failed to fetch weather';
+      console.error(error);
     }
   }
   
