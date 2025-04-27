@@ -17,3 +17,21 @@ Link("Send an email", destination: URL(string: "mailto:example.com")!)
     .border(.primary, width: 2)
     .tint(.pink)
 ```
+
+*Link View*
+```swift
+Link(destination: URL(string: "...")!) {
+    HStack(spacing: 16) {
+        Image(systemName: "apple.logo")
+        Text("Apple Store")
+    }
+    .font(.largeTitle)
+    .foregroundColor(.white)
+    .padding()
+    .padding(.horizontal)
+    .background(
+        Capsule()
+            .fill(Color.blue)
+    )
+}
+```
