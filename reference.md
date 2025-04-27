@@ -1,19 +1,13 @@
 # AWS
 
-
 <details>
 <summary>EC2</summary>
 
-EC 2 User Data Bash script
-<code>
-#!/bin/bash
-yum update -y
-yum install -y httpd
-systemctl start httpd
-systemctl enable httpd
+<pre class="mermaid">
+graph TD;
+    Base --> Service
+</pre>
 
-echo "<h1> Hello, World from $(hostname -f) </h1>" > /var/www/html/index.html
-</code>
 
 </details>
 
