@@ -50,3 +50,38 @@ Text("iOS")
         )
     )
 ```
+
+## Load image from internet
+Scale Parameter
+
+```swift
+import SwiftUI
+
+struct ContentView: View {
+    private let imageURL: String = "https://credo.academy/credo-academy@3x.png"
+    
+    var body: some View {
+        // AsyncImage(url: URL(string: imageURL))
+        
+        // MARK: - 2 . SCALE
+        // Default value is 1.0. The greater the value the smaller the image
+        // AsyncImage(url: URL(string: imageURL), scale: 3.0)
+        
+        // MARK - 3. PLACEHOLDER
+        AsyncImage(url: URL(string: imageURL)) {
+              image in image
+          .resizable()
+          .scaledToFit()
+          } placeholder: {
+              Image(systemName: "photo.circle.fill")
+                  .resizable()
+                  .scaledToFit()
+                  .frame(maxWidth: 128)
+                  .foregroundColor(.purple)
+                  .opacity(0.5)
+          }
+          .padding(40)
+
+    }
+}
+```

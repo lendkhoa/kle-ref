@@ -24,16 +24,15 @@
         </div>
     </sl-card>
 </div>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/light.css" />
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/shoelace-autoloader.js"></script>
 
 <style>
     .weather-container {
-        position: absolute;
+        position: fixed;
         top: 10px;
         right: 10px;
         width: 280px;
         z-index: 1000;
+        transition: all 0.3s ease;
     }
 
     .weather-card {
@@ -100,6 +99,70 @@
     .forecast-temp {
         font-size: 0.7rem;
     }
+
+    @media (max-width: 768px) {
+        .weather-container {
+            width: calc(100% - 20px);
+            max-width: 350px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .weather-container {
+            width: calc(100% - 20px);
+            right: 50%;
+            transform: translateX(50%);
+            top: auto;
+            bottom: 10px;
+        }
+
+        .weather-content {
+            padding: 8px 0;
+        }
+
+        .forecast-container {
+            padding: 8px 0 0;
+        }
+
+        .forecast-item {
+            min-width: 40px;
+        }
+    }
+
+    /* For very small screens */
+    @media (max-width: 320px) {
+        .weather-icon sl-icon {
+            font-size: 2rem !important;
+        }
+
+        .forecast-icon sl-icon {
+            font-size: 1rem !important;
+        }
+
+        .weather-info, .forecast-temp, .forecast-day {
+            font-size: 0.7rem;
+        }
+    }
+
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+        .weather-card {
+            --sl-color-neutral-0: #1a1a1a;
+            --sl-color-neutral-50: #242424;
+            --sl-color-neutral-100: #2d2d2d;
+            --sl-color-neutral-200: #363636;
+            --sl-color-neutral-300: #444444;
+            color: #f0f0f0;
+        }
+
+        .forecast-container {
+            border-top-color: #444444;
+        }
+
+        .weather-content {
+            border-bottom-color: #444444;
+        }
+    }
 </style>
 
 
@@ -154,7 +217,8 @@ Swift UI notes
 
 
 
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/light.css" />
+<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/shoelace-autoloader.js"></script>
 <script>
     const locationName = "65806";
     console.log("Fetching weather for: ", locationName);
