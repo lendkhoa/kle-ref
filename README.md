@@ -27,7 +27,7 @@
 
 <style>
     .weather-container {
-        position: fixed;
+        position: absolute;
         top: 10px;
         right: 10px;
         width: 280px;
@@ -141,26 +141,6 @@
 
         .weather-info, .forecast-temp, .forecast-day {
             font-size: 0.7rem;
-        }
-    }
-
-    /* Dark mode support */
-    @media (prefers-color-scheme: dark) {
-        .weather-card {
-            --sl-color-neutral-0: #1a1a1a;
-            --sl-color-neutral-50: #242424;
-            --sl-color-neutral-100: #2d2d2d;
-            --sl-color-neutral-200: #363636;
-            --sl-color-neutral-300: #444444;
-            color: #f0f0f0;
-        }
-
-        .forecast-container {
-            border-top-color: #444444;
-        }
-
-        .weather-content {
-            border-bottom-color: #444444;
         }
     }
 </style>
