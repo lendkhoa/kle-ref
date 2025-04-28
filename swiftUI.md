@@ -35,3 +35,18 @@ Link(destination: URL(string: "...")!) {
     )
 }
 ```
+
+## Text
+*Gradient*
+```swift
+Text("iOS")
+    .font(.system(size: 180))
+    .fontWeight(.black)
+    .foregroundStyle(
+        LinearGradient(
+            colors: [.pink, .purple, .blue],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    )
+```
