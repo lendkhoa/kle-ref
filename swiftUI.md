@@ -128,6 +128,7 @@ struct ContentView: View {
 ```
 
 *Phase*
+If the image failed to load then a placeholder image will be used in place <br/>
 ```swift
 struct ContentView: View {
     private let imageURL: String = "https://credo.academy/credo-academy@3x.png"
@@ -150,6 +151,104 @@ struct ContentView: View {
     }
 }
 ```
+
+*Animation*
+```swift
+AsyncImage(url: URL(string: imageURL), transaction: Transaction(animation: .spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0.25))) { phase in
+    switch phase {
+    case .success(let image):
+        image
+            .imageModifier()
+            // .transition(.move(edge: .bottom)) // move the image from bottom
+            // .transition(.slide)
+            .transition(.scale)
+    case .failure(_):
+        Image(systemName: "ant.circle.fill").iconModifier()
+    case .empty:
+        Image(systemName: "photo.circle.fill").iconModifier()
+    @unknown default:
+        ProgressView()
+    }
+}
+.padding(40)
+```
+
+*Full Code* <br/>
+
+```swift
+//
+//  ContentView.swift
+//  HelloWorld
+//
+//  Created by Khoa Le on 4/27/25.
+//
+
+import SwiftUI
+
+extension Image {
+    func imageModifier() -> some View {
+        self
+            .resizable()
+            .scaledToFit()
+    }
+    
+    func iconModifier() -> some View {
+        self
+            .imageModifier()
+            .frame(maxWidth: 128)
+            .foregroundColor(.purple)
+            .opacity(0.5)
+    }
+}
+
+struct ContentView: View {
+    private let imageURL: String = "https://credo.academy/credo-academy@3x.png"
+    
+    var body: some View {
+        VStack {
+            Image(systemName: "globe")
+                .imageScale(.large)
+                .foregroundStyle(.tint)
+            Text("Hello, world!")
+            Text("iOS")
+                .font(.system(size: 180))
+                .fontWeight(.black)
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: [.pink, .purple, .blue],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+            
+            AsyncImage(url: URL(string: imageURL), transaction: Transaction(animation: .spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0.25))) { phase in
+                switch phase {
+                case .success(let image):
+                    image
+                        .imageModifier()
+                        //.transition(.move(edge: .bottom)) // move the image from bottom
+                        .transition(.scale)
+                case .failure(_):
+                    Image(systemName: "ant.circle.fill").iconModifier()
+                case .empty:
+                    Image(systemName: "photo.circle.fill").iconModifier()
+                @unknown default:
+                    ProgressView()
+                }
+            }
+            .padding(40)
+        }
+    }
+}
+
+struct ContentView_previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
+```
+
+![Image Animation](./images/image-animation.gif)
 
 
 
